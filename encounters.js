@@ -101,4 +101,6 @@
             console.log('... done!');
         });
     }
+
+    init();
 })(window, jQuery);
