@@ -98,7 +98,7 @@
             console.log('Initializing...');
             encounterListEl = $('#encountersList');
             initEncounters();
-            console.log('... done!'):
+            console.log('... done!');
         });
     }
 })(window, jQuery);
