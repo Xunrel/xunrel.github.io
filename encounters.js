@@ -23,59 +23,59 @@
             skills: [
                 {
                     name: 'Astronavgation',
-                    stat: 'int'
+                    stat: 'int',
                     lvl: 1
                 }, {
                     name: 'Charm',
-                    stat: 'pre'
+                    stat: 'pre',
                     lvl: 2
                 }, {
                     name: 'Coolness',
-                    stat: 'pre'
+                    stat: 'pre',
                     lvl: 2
                 }, {
                     name: 'Disziplin',
-                    stat: 'wil'
+                    stat: 'wil',
                     lvl: 3
                 }, {
                     name: 'Einschüchterung',
-                    stat: 'wil'
+                    stat: 'wil',
                     lvl: 4
                 }, {
                     name: 'Fernkampfwaffen(leicht)',
-                    stat: 'agi'
+                    stat: 'agi',
                     lvl: 4
                 }, {
                     name: 'Mechanik',
-                    stat: 'int'
+                    stat: 'int',
                     lvl: 5
                 }, {
                     name: 'Medizin',
-                    stat: 'int'
+                    stat: 'int',
                     lvl: 1
                 }, {
                     name: 'Nahkampfwaffen',
-                    stat: 'str'
+                    stat: 'str',
                     lvl: 2
                 }, {
                     name: 'Pilot (Weltraum)',
-                    stat: 'agi'
+                    stat: 'agi',
                     lvl: 2
                 }, {
                     name: 'Täuschung',
-                    stat: 'cun'
+                    stat: 'cun',
                     lvl: 2
                 }, {
                     name: 'Verhandeln',
-                    stat: 'pre'
+                    stat: 'pre',
                     lvl: 3
                 }, {
                     name: 'Wachsamkeit',
-                    stat: 'wil'
+                    stat: 'wil',
                     lvl: 2
                 }, {
                     name: 'Wissen (Unterwel)',
-                    stat: 'int'
+                    stat: 'int',
                     lvl: 2
                 }
             ]
