@@ -84,6 +84,7 @@
 
     function initEncounters() {
         encounters.forEach(encounter => {
+            console.dir(encounter);
             var newRow = $('<div class="row"></div>');
             var nameEl = $('<div class="col-12"><strong>Name:' + encounter.name + '</strong></div>');
 
@@ -94,8 +95,10 @@
 
     function init() {
         $(document).ready(function () {
+            console.log('Initializing...');
             encounterListEl = $('#encountersList');
             initEncounters();
+            console.log('... done!'):
         });
     }
 })(window, jQuery);
