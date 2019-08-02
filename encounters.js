@@ -86,6 +86,9 @@
         encounters.forEach(encounter => {
             var newRow = $('<div class="row"></div>');
             var nameEl = $('<div class="col-12"><strong>Name:' + encounter.name + '</strong></div>');
+
+            newRow.append(nameEl);
+            encounterListEl.append(newRow);
         });
     }
 
