@@ -1,5 +1,33 @@
 (function (window, $) {
     var encounterListEl;
+    var attributeKeys = [
+        'str',
+        'agi',
+        'int',
+        'cun',
+        'wil',
+        'pre'
+    ];
+    var attributeNames = {
+        str: {
+            name: 'Stärke'
+        },
+        agi: {
+            name: 'Gewandheit'
+        },
+        int: {
+            name: 'Intelligenz'
+        },
+        cun: {
+            name: 'List'
+        },
+        wil: {
+            name: 'Willensstärke'
+        },
+        pre: {
+            name: 'Charisma'
+        }
+    };
     var encounters = [
         {
             name: 'Reom',
@@ -43,7 +71,7 @@
                     att: 'wil',
                     lvl: 4
                 }, {
-                    name: 'Fernkampfwaffen(leicht)',
+                    name: 'Fernkampfwaffen (leicht)',
                     att: 'agi',
                     lvl: 4
                 }, {
@@ -125,7 +153,7 @@
         var skillContainer = $('<div class="container"></div>');
         encounter.skills.forEach(skill => {
             var skillRow = $('<div class="row"></div>');
-            var skillName = $('<div class="col-4">' + skill.name + ' (' + skill.att + ')</div>');
+            var skillName = $('<div class="col-4">' + skill.name + ' (<u>' + attributeNames[skill.att].name + '</u>)</div>');
             var skillLvl = $('<div class="col-4">' + skill.lvl + '</div>');
             var skillDice = $('<div class="col-4">' + determineDice(encounter.attributes[skill.att], skill.lvl).html() + '</div>');
             skillRow.append(skillName).append(skillLvl).append(skillDice);
@@ -134,16 +162,16 @@
         newRow.append(skillsDesc);
         newRow.append(skillContainer);
     }
-    
+
     function buildAttributes(encounter, newRow) {
         var attDesc = $('<div class="col-12"><br/><strong>Attribute</strong></div>');
-        var attributesEl = $('<div class="col-2">Stärke</div><div class="col-2">Gewandheit</div><div class="col-2">Intelligenz</div><div class="col-2">List</div><div class="col-2">Willenskraft</div><div class="col-2">Charisma</div>');
-        var attValues = $('<div class="col-2">' + encounter.attributes.str + '</div><div class="col-2">' + encounter.attributes.agi + '</div><div class="col-2">' + encounter.attributes.int + '</div><div class="col-2">' + encounter.attributes.cun + '</div><div class="col-2">' + encounter.attributes.wil + '</div><div class="col-2">' + encounter.attributes.pre + '</div>');
         newRow.append(attDesc);
-        newRow.append(attributesEl);
-        newRow.append(attValues);
+        attributeKeys.forEach(key => {
+            var attributesEl = $('<div class="col-4">' + attributeNames[key].name + '</div><div class="col-8">' + encounter.attributes[key] + '</div>');
+            newRow.append(attributesEl);
+        });
     }
-    
+
     function buildDamage(encounter, newRow) {
         var woundDesc = $('<div class="col-12"><br/><strong>Wunden</strong></div>');
         var woundValue = $('<div class="container"></div>');
@@ -168,7 +196,7 @@
         newRow.append(strainDesc);
         newRow.append(strainValue);
     }
-    
+
     function buildDefenese(encounter, newRow) {
         var defDesc = $('<div class="col-12"><br/><strong>Defensive</strong></div>');
         var defEl = $('<div class="col-4">Absorbtion</div><div class="col-4">Nahkampf</div><div class="col-4">Fernkampf</div>');
@@ -177,7 +205,7 @@
         newRow.append(defEl);
         newRow.append(defValues);
     }
-    
+
     function buildName(encounter, newRow) {
         var nameEl = $('<div class="col-12"><strong>Name: ' + encounter.name + '</strong></div>');
         newRow.append(nameEl);
