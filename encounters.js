@@ -1,6 +1,6 @@
 (function (window, $) {
-    var encounterListEl;
-    var attributeKeys = [
+    let encounterListEl;
+    let attributeKeys = [
         'str',
         'agi',
         'int',
@@ -8,7 +8,7 @@
         'wil',
         'pre'
     ];
-    var attributeNames = {
+    let attributeNames = {
         str: {
             name: 'Stärke'
         },
@@ -28,8 +28,9 @@
             name: 'Charisma'
         }
     };
-    var encounters = [
+    let encounters = [
         {
+            id: 'npc_reom',
             name: 'Reom',
             type: 'rival',
             attributes: {
@@ -42,7 +43,7 @@
             },
             woundLimit: 13,
             wounds: 0,
-            strainLimit: 13,
+            strainLimit: 0,
             strain: 0,
             absorbtion: 3,
             defense: {
@@ -71,7 +72,7 @@
                     att: 'wil',
                     lvl: 4
                 }, {
-                    name: 'Fernkampfwaffen (leicht)',
+                    name: 'Fernkampf (leicht)',
                     att: 'agi',
                     lvl: 4
                 }, {
@@ -83,7 +84,7 @@
                     att: 'int',
                     lvl: 1
                 }, {
-                    name: 'Nahkampfwaffen',
+                    name: 'Nahkampf',
                     att: 'str',
                     lvl: 2
                 }, {
@@ -108,13 +109,62 @@
                     lvl: 2
                 }
             ]
+        },
+        {
+            id: 'yav_yiyar',
+            name: 'Yav Yiyar',
+            type: 'rival',
+            attributes: {
+                str: 3,
+                agi: 3,
+                int: 2,
+                cun: 3,
+                wil: 2,
+                pre: 3
+            },
+            woundLimit: 18,
+            wounds: 0,
+            strainLimit: 0,
+            strain: 0,
+            absorbtion: 4,
+            defense: {
+                melee: 1,
+                range: 1
+            },
+            skills: [
+                {
+                    name: 'Coolness',
+                    att: 'pre',
+                    lvl: 1
+                }, {
+                    name: 'Täuschung',
+                    att: 'cun',
+                    lvl: 2
+                }, {
+                    name: 'Fernkampf (leicht)',
+                    att: 'agi',
+                    lvl: 3
+                }, {
+                    name: 'Nahkampf',
+                    att: 'str',
+                    lvl: 2
+                }, {
+                    name: 'Pilot (Weltraum)',
+                    att: 'agi',
+                    lvl: 3
+                }, {
+                    name: 'Wachsamkeit',
+                    att: 'wil',
+                    lvl: 2
+                }
+            ]
         }
     ];
 
     function determineDice(attribute, skillLvl) {
-        var higherValue = 0; // higherValue determines total dice count
-        var lowerValue = 0; // lowerValue determines better dice count
-        var isEqual = false;
+        let higherValue = 0; // higherValue determines total dice count
+        let lowerValue = 0; // lowerValue determines better dice count
+        let isEqual = false;
         if (attribute > skillLvl) {
             higherValue = attribute;
             lowerValue = skillLvl;
@@ -124,23 +174,23 @@
         } else {
             isEqual = attribute === skillLvl;
         }
-        var diceEl = $('<span><span>');
+        let diceEl = $('<span><span>');
 
         if (!isEqual) {
-            var higherDice = lowerValue;
-            var lowerDice = higherValue - lowerValue;
+            let higherDice = lowerValue;
+            let lowerDice = higherValue - lowerValue;
 
-            for (var i = 0; i < higherDice; i++) {
+            for (let i = 0; i < higherDice; i++) {
                 diceEl.append('<i class="material-icons" style="color: yellow;">fiber_manual_record</i>');
             }
-            for (var i = 0; i < lowerDice; i++) {
+            for (let i = 0; i < lowerDice; i++) {
                 diceEl.append('<i class="material-icons" style="color: green;">fiber_manual_record</i>');
             }
 
         } else {
-            var higherDice = attribute;
+            let higherDice = attribute;
 
-            for (var i = 0; i < higherDice; i++) {
+            for (let i = 0; i < higherDice; i++) {
                 diceEl.append('<i class="material-icons" style="color: yellow;">fiber_manual_record</i>');
             }
         }
@@ -149,13 +199,13 @@
     }
 
     function buildSkills(encounter, determineDice, newRow) {
-        var skillsDesc = $('<div class="col-12"><br/><strong>Fertigkeiten</strong></div>');
-        var skillContainer = $('<div class="container"></div>');
+        let skillsDesc = $('<div class="col-12"><br/><strong>Fertigkeiten</strong></div>');
+        let skillContainer = $('<div class="container"></div>');
         encounter.skills.forEach(skill => {
-            var skillRow = $('<div class="row"></div>');
-            var skillName = $('<div class="col-4">' + skill.name + ' (<u>' + attributeNames[skill.att].name + '</u>)</div>');
-            var skillLvl = $('<div class="col-4">' + skill.lvl + '</div>');
-            var skillDice = $('<div class="col-4">' + determineDice(encounter.attributes[skill.att], skill.lvl).html() + '</div>');
+            let skillRow = $('<div class="row"></div>');
+            let skillName = $('<div class="col-4">' + skill.name + ' (<u>' + attributeNames[skill.att].name + '</u>)</div>');
+            let skillLvl = $('<div class="col-4">' + skill.lvl + '</div>');
+            let skillDice = $('<div class="col-4">' + determineDice(encounter.attributes[skill.att], skill.lvl).html() + '</div>');
             skillRow.append(skillName).append(skillLvl).append(skillDice);
             skillContainer.append(skillRow);
         });
@@ -164,24 +214,24 @@
     }
 
     function buildAttributes(encounter, newRow) {
-        var attDesc = $('<div class="col-12"><br/><strong>Attribute</strong></div>');
+        let attDesc = $('<div class="col-12"><br/><strong>Attribute</strong></div>');
         newRow.append(attDesc);
         attributeKeys.forEach(key => {
-            var attributesEl = $('<div class="col-4">' + attributeNames[key].name + '</div><div class="col-8">' + encounter.attributes[key] + '</div>');
+            let attributesEl = $('<div class="col-4">' + attributeNames[key].name + '</div><div class="col-8">' + encounter.attributes[key] + '</div>');
             newRow.append(attributesEl);
         });
     }
 
     function buildDamage(encounter, newRow) {
-        var woundDesc = $('<div class="col-12"><br/><strong>Wunden</strong></div>');
-        var woundValue = $('<div class="container"></div>');
-        var strainDesc = $('<div class="col-12"><strong>Erschöpfung</strong></div>');
-        var strainValue = $('<div class="container"></div>');
+        let woundDesc = $('<div class="col-12"><br/><strong>Wunden</strong></div>');
+        let woundValue = $('<div class="container"></div>');
+        let strainDesc = $('<div class="col-12"><br/><strong>Erschöpfung</strong></div>');
+        let strainValue = $('<div class="container"></div>');
         if (encounter.type === 'minion') {
         }
         else {
-            var woundRow = $('<div class="row input-group"></div>');
-            var strainRow = $('<div class="row input-group"></div>');
+            let woundRow = $('<div class="row input-group"></div>');
+            let strainRow = $('<div class="row input-group"></div>');
             for (let i = 0; i < encounter.woundLimit; i++) {
                 woundRow.append('<div class="col-1"><input type="checkbox" /></div>');
             }
@@ -198,35 +248,37 @@
     }
 
     function buildDefenese(encounter, newRow) {
-        var defDesc = $('<div class="col-12"><br/><strong>Defensive</strong></div>');
-        var defEl = $('<div class="col-4">Absorbtion</div><div class="col-4">Nahkampf</div><div class="col-4">Fernkampf</div>');
-        var defValues = $('<div class="col-4">' + encounter.absorbtion + '</div><div class="col-4">' + encounter.defense.melee + '</div><div class="col-4">' + encounter.defense.range + '</div>');
+        let defDesc = $('<div class="col-12"><br/><strong>Defensive</strong></div>');
+        let defEl = $('<div class="col-4">Absorbtion</div><div class="col-4">Nahkampf</div><div class="col-4">Fernkampf</div>');
+        let defValues = $('<div class="col-4">' + encounter.absorbtion + '</div><div class="col-4">' + encounter.defense.melee + '</div><div class="col-4">' + encounter.defense.range + '</div>');
         newRow.append(defDesc);
         newRow.append(defEl);
         newRow.append(defValues);
     }
 
     function buildName(encounter, newRow) {
-        var nameEl = $('<div class="col-12"><strong>Name: ' + encounter.name + '</strong></div>');
+        let nameEl = $('<div class="col-12"><strong>Name: ' + encounter.name + '</strong></div>');
         newRow.append(nameEl);
+    }
+
+    function buildEncounterRow(encounter) {
+        let newRow = $('<div style="cursor:pointer;" class="row card" data-toggle="collapse" data-target="#' + encounter.id + '" aria-expanded="false" aria-controls="' + encounter.id + '"></div>');
+        let encounterContainer = $('<div class="container collapse" id="' + encounter.id + '"></div>');
+        let encounterRow = $('<div class="row"></div>');
+        buildName(encounter, newRow);
+        buildDefenese(encounter, encounterRow);
+        buildDamage(encounter, encounterRow);
+        buildAttributes(encounter, encounterRow);
+        buildSkills(encounter, determineDice, encounterRow);
+        encounterContainer.append(encounterRow);
+        newRow.append(encounterContainer);
+        encounterListEl.append(newRow);
     }
 
     function initEncounters() {
         encounters.forEach(encounter => {
             console.dir(encounter);
-            var newRow = $('<div class="row"></div>');
-
-            buildName(encounter, newRow);
-
-            buildDefenese(encounter, newRow);
-
-            buildDamage(encounter, newRow);
-
-            buildAttributes(encounter, newRow);
-
-            buildSkills(encounter, determineDice, newRow);
-
-            encounterListEl.append(newRow);
+            buildEncounterRow(encounter);
         });
     }
 
